@@ -27,11 +27,14 @@ insert into termek values (7003, 'termek4', 1, 8000);
 insert into termek values (7004, 'termek5', 1, 8000);
 -- insert into termek values (7004, 'termek5', -2, 8000);
 insert into termek values (7005, 'terem', 1, 8000);
-
- 
-
+                                                               
 select * from gyarto;
 select * from termek;
 select * from alkatresz;
 select * from egysegek;
 select * from komponens;
+
+-- 3.feladat 
+create table tanfolyam(tkod int primary key, ar int, tipus varchar(30), megnevezes varchar(30));
+create table resztvevo(tajszam int primary key, nev varchar(30), lakcim varchar(30));
+create table befizetes(tkod int, foreign key(tkod) references tanfolyam(tkod), tajszam int, foreign key(tajszam) references resztvevo(tajszam));
