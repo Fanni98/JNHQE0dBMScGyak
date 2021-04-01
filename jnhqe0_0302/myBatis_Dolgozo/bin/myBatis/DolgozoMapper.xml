@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="mybatis.DolgozoMapper">
+	<resultMap type="dolgozo" id="dolgozoResult" >
+		<id property="did" column="did" />
+		<result property="dnev" column="dnev" />
+		<result property="beosztas" column="beosztas" />
+		<result property="fizetes" column="fizetes" />
+	</resultMap>
+	
+	<!-- Dolgozó felvitele -->
+	<insert id="insertDolgozo" parameterType="dolgozo" keyProperty="did">
+		INSERT INTO dolgozo(did, dnev, beosztas, fizetes) VALUES(#{did}, #{dnev}, #{beosztas}, #{fizetes})
+	</insert>
+	
+	<!-- Dolgozó fizetésének módosítása ID alapján-->
+	<update id="updatePayment" parameterType="dolgozo">
+		UPDATE dolgozo SET fizetes = #{fizetes} WHERE did = #{did}
+	</update>
+	
+	<!-- Dolgozó beosztásának módosítása ID alapján -->
+	<update id="updatePost" parameterType="dolgozo">
+		UPDATE dolgozo SET beosztas = #{beosztas} WHERE did = #{did}
+	</update>
+	
+	<!-- Dolgozó törlése ID alapján -->
+	<delete id="deleteDolgozo" parameterType="int">
+		DELETE FROM dolgozo WHERE did = #{did}
+	</delete>
+	
+	<!-- Paraméternél magasabb fizetésű dolgozók lekérdezése -->
+	<select id="selectDolgozoByFizetes" resultType="dolgozo" parameterType="int" resultMap="dolgozoResult">
+		SELECT dnev, fizetes FROM dolgozo WHERE fizetes > #{fizetes}
+	</select>
+	
+	<!-- Összes dolgozó lekérdezése -->
+	<select id="findAllDolgozo" resultType="dolgozo" resultMap="dolgozoResult">
+		SELECT * FROM dolgozo
+	</select>
+	
+</mapper>

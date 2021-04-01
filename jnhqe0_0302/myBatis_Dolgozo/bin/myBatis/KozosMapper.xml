@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="mybatis.KozosMapper">
+	<resultMap type="Kozos" id="kozosResult" >
+		<id property="kid" column="kid" />
+		<id property="did" column="did" />
+		<result property="dnev" column="dnev" />
+		<result property="beosztas" column="beosztas" />
+		<result property="fizetes" column="fizetes" />
+		<result property="knev" column="knev" />
+		<result property="oktato" column="oktato" />
+		<result property="idotartam" column="idotartam" />
+		
+	</resultMap>
+	
+	
+	<!-- Paraméterként megadott fizetésnél magasabb fizetésű dolgozók milyen képzésen vett részt -->
+	<select id="selectKepzesByNagyobbFizetes" resultType="Kozos" parameterType="int" resultMap="kozosResult">
+		SELECT dnev, knev, fizetes FROM dolgozo, kepzes WHERE dolgozo.fizetes > #{fizetes}
+	</select>
+	
+	<!-- Paraméterként megadott beosztású dolgozó közül ki milyen képzésen vett részt -->
+	<select id="selectKepzesByBeosztas" resultType="Kozos" parameterType="string" resultMap="kozosResult">
+		SELECT dnev, knev FROM dolgozo, kepzes WHERE beosztas = #{beosztas}
+	</select>
+	
+</mapper>

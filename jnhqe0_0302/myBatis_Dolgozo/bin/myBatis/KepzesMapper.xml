@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="mybatis.KepzesMapper">
+	<resultMap type="kepzes" id="kepzesResult" >
+		<id property="kid" column="kid" />
+		<result property="knev" column="knev" />
+		<result property="oktato" column="oktato" />
+		<result property="idotartam" column="idotartam" />
+	</resultMap>
+	
+	<!-- Képzés felvitele -->
+	<insert id="insertKepzes" parameterType="kepzes" keyProperty="kid">
+		INSERT INTO kepzes(kid, knev, oktato, idotartam) VALUES(#{kid}, #{knev}, #{oktato}, #{idotartam})
+	</insert>
+	
+	<!-- Képzés időtartamának módosítása ID alapján-->
+	<update id="updateIdotartam" parameterType="dolgozo">
+		UPDATE kepzes SET idotartam = #{idotartam} WHERE kid = #{kid}
+	</update>
+	
+	<!-- Képzés oktatójának módosítása ID alapján -->
+	<update id="updateOktato" parameterType="dolgozo">
+		UPDATE kepzes SET oktato = #{oktato} WHERE kid = #{kid}
+	</update>
+	
+	<!-- Képzés törlése ID alapján -->
+	<delete id="deleteKepzes" parameterType="int">
+		DELETE FROM kepzes WHERE kid = #{kid}
+	</delete>
+	
+	<!-- Paraméternél rövidebb idejű képzések lekérdezése -->
+	<select id="selectRovidebbKepzes" resultType="kepzes" parameterType="int" resultMap="kepzesResult">
+		SELECT knev, idotartam FROM kepzes WHERE idotartam &lt; #{idotartam}
+	</select>
+	
+	<!-- Paraméterként megadott oktatóhoz milyen képzés tartozik -->
+	<select id="selectKepzesByOktato" resultType="kepzes" parameterType="string" resultMap="kepzesResult">
+		SELECT knev, oktato FROM kepzes WHERE oktato = #{oktato}
+	</select>
+	
+	<!-- Összes képzés lekérdezése -->
+	<select id="findAllKepzes" resultType="kepzes" resultMap="kepzesResult">
+		SELECT * FROM kepzes
+	</select>
+	
+</mapper>
